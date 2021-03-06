@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "A Quasar Framework app",
   "productName": "Quasar Todo",
-  "author": "Molly Huang <molly.h@gmail.com>",
+  "author": "Molly Huang",
   "private": true,
   "scripts": {
     "test": "echo \"No test specified\" && exit 0"

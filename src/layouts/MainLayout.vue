@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+    <q-header>
       <q-toolbar>
         <q-btn
           flat
@@ -17,6 +17,11 @@
 
         <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
+      <div class="q-px-lg q-pt-xl q-mb-md">
+        <div class="text-h3">Todo</div>
+        <div class="text-subtitle1">Monday 4 March</div>
+      </div>
+      <q-img src="~assets/lake.jpg" class="header-image absolute-top" />
     </q-header>
 
     <q-drawer
@@ -105,3 +110,12 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+  .header-image {
+    height: 100%;
+    z-index: -1;
+    opacity: .3;
+    filter: grayscale(100%);
+  }
+</style>
