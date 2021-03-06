@@ -12,7 +12,12 @@
         placeholder="Add task"
         dense>
         <template v-slot:append>
-          <q-btn round dense flat icon="add" @click="addTask"/>
+          <q-btn
+            round
+            dense
+            flat
+            icon="add"
+            @click="addTask" />
         </template>
       </q-input>
     </div>
@@ -95,6 +100,8 @@ export default {
       })
     },
     addTask() {
+      if (!this.newTask) return;
+      
       this.tasks.push({
         title: this.newTask,
         done: false
