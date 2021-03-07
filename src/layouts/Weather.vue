@@ -33,6 +33,12 @@
           </div>
         </div>
 
+        <div class="col text-center">
+          <img width="30" src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg" alt="Bill" />
+        </div>
+
+        <div class="col skyline"></div>
+
       </q-page>
     </q-page-container>
   </q-layout>
@@ -54,4 +60,9 @@ export default {
     background: linear-gradient(to bottom, #136a8a, #267871)
   .degree
     top: -44px
+  .skyline
+    flex: 0 0 100px
+    background: url(~assets/skyline.png)
+    background-size: contain
+    background-position: center bottom
 </style>
