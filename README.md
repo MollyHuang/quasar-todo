@@ -1,6 +1,8 @@
 # Quasar Todo (quasar-todo)
 
-A Quasar Framework app
+A Quasar Framework app tutorial
+Create an App for Android, iOS, Mac & Windows - in 30 MINUTES!
+https://www.youtube.com/watch?v=GV-D85D9KJQ
 
 ## Install the dependencies
 ```bash
