@@ -42,6 +42,20 @@
           </q-item>
 
           <q-item 
+            to="/weather"
+            exact
+            clickable 
+            v-ripple>
+            <q-item-section avatar>
+              <q-icon name="thermostat" />
+            </q-item-section>
+
+            <q-item-section>
+              Weather
+            </q-item-section>
+          </q-item>
+
+          <q-item 
             to="/help"
             exact
             clickable 

@@ -1,5 +1,13 @@
 
 const routes = [
+
+  // Weather page
+  {
+    path: '/weather',
+    component: () => import('layouts/Weather.vue')
+  },
+
+  // Index page
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
