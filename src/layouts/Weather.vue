@@ -20,22 +20,36 @@
           </q-input>
         </div>
 
-        <div class="col text-white text-center">
-          <div class="text-h4 text-weight-light">
-            Manchester
+        <template v-if="weatherData">
+          <div class="col text-white text-center">
+            <div class="text-h4 text-weight-light">
+              Manchester
+            </div>
+            <div class="text-h6 text-weight-light">
+              Rain
+            </div>
+            <div class="text-h1 text-weight-thin q-my-lg relative-position">
+              <span>8</span>
+              <span class="text-h4 relative-position degree">&deg;</span>
+            </div>
           </div>
-          <div class="text-h6 text-weight-light">
-            Rain
-          </div>
-          <div class="text-h1 text-weight-thin q-my-lg relative-position">
-            <span>8</span>
-            <span class="text-h4 relative-position degree">&deg;</span>
-          </div>
-        </div>
 
-        <div class="col text-center">
-          <img width="30" src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg" alt="Bill" />
-        </div>
+          <div class="col text-center">
+            <img width="30" src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg" alt="Bill" />
+          </div>
+        </template>
+
+        <template v-else>
+          <div class="col column text-center text-white">
+            <div class="col text-h2 text-weight-thin">
+              Quasar<br>Weather
+            </div>
+            <q-btn class="col" flat>
+              <q-icon left size="3em" name="my_location"></q-icon>
+              <div>Find my location</div>
+            </q-btn>
+          </div>
+        </template>
 
         <div class="col skyline"></div>
 
@@ -49,7 +63,8 @@ export default {
   name: 'Weather',
   data () {
     return {
-      search: ''
+      search: '',
+      weatherData: null
     }
   }
 }
