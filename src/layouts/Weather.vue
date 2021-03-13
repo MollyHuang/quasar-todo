@@ -11,7 +11,10 @@
             borderless
           >
             <template v-slot:before>
-              <q-icon name="my_location" />
+              <q-icon
+                @click="getLocation"
+                name="my_location"
+              />
             </template>
 
             <template v-slot:append>
@@ -23,19 +26,20 @@
         <template v-if="weatherData">
           <div class="col text-white text-center">
             <div class="text-h4 text-weight-light">
-              Manchester
+              {{ weatherData.name }}
             </div>
             <div class="text-h6 text-weight-light">
-              Rain
+              {{ weatherData.weather[0].main }}
             </div>
             <div class="text-h1 text-weight-thin q-my-lg relative-position">
-              <span>8</span>
-              <span class="text-h4 relative-position degree">&deg;</span>
+              <span>{{ Math.round(weatherData.main.temp) }}</span>
+              <span class="text-h4 relative-position degree">&deg;C</span>
             </div>
           </div>
 
           <div class="col text-center">
-            <img width="30" src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg" alt="Bill" />
+            <img :src="`http://openweathermap.org/img/wn/${ weatherData.weather[0].icon }@2x.png`" />
+            <!-- <img width="30" src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg" alt="Bill" /> -->
           </div>
         </template>
 
@@ -44,7 +48,10 @@
             <div class="col text-h2 text-weight-thin">
               Quasar<br>Weather
             </div>
-            <q-btn class="col" flat>
+            <q-btn
+              @click="getLocation"
+              class="col"
+              flat>
               <q-icon left size="3em" name="my_location"></q-icon>
               <div>Find my location</div>
             </q-btn>
@@ -59,12 +66,61 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'Weather',
   data () {
     return {
       search: '',
-      weatherData: null
+      weatherData: null,
+      lat: null,
+      lon: null
+    }
+  },
+  methods: {
+    getLocation() {
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          // console.log('position: ', position)
+          this.lat = position.coords.latitude
+          this.lon = position.coords.longitude
+          this.getWeatherByCoords()
+        })
+    },
+    getWeatherByCoords(){
+      // https://api.openweathermap.org/data/2.5/weather?lat=35&lon=139&appid={API key}
+
+      const options = {
+        method: 'GET',
+	      crossDomain: true,
+        url: 'https://community-open-weather-map.p.rapidapi.com/weather',
+        params: {
+          // q: 'London,uk',
+          lat: this.lat,
+          lon: this.lon,
+          units: 'metric',
+          // callback: 'test',
+          // id: '2172797',
+          // lang: 'null',
+          // units: '"metric" or "imperial"',
+          // mode: 'xml, html'
+        },
+        headers: {
+          'x-rapidapi-key': '43307ddc22msh7f191e616a3cb85p1b2385jsn24748b2f6800',
+          'x-rapidapi-host': 'community-open-weather-map.p.rapidapi.com'
+        }
+      };
+
+      this.$axios(options).then(response => {
+        try {
+          console.log('response.data=', response.data)
+          this.weatherData = response.data
+          
+        } catch (error) {
+          console.error(error);
+        }
+      })
     }
   }
 }
