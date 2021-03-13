@@ -1,10 +1,11 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-page-container>
-      <q-page class="flex column">
+      <q-page class="flex column" :class="bgClass">
 
         <div class="col q-pt-lg q-px-md">
           <q-input
+            @keyup.enter="getWeatherBySearch"
             v-model="search"
             placeholder="Search"
             dark
@@ -18,7 +19,12 @@
             </template>
 
             <template v-slot:append>
-              <q-btn round dense flat icon="search" />
+              <q-btn
+                @click="getWeatherBySearch"
+                round
+                dense
+                flat
+                icon="search" />
             </template>
           </q-input>
         </div>
@@ -29,7 +35,7 @@
               {{ weatherData.name }}
             </div>
             <div class="text-h6 text-weight-light">
-              {{ weatherData.weather[0].main }}
+              {{ weatherData.weather[0].description }}
             </div>
             <div class="text-h1 text-weight-thin q-my-lg relative-position">
               <span>{{ Math.round(weatherData.main.temp) }}</span>
@@ -78,6 +84,18 @@ export default {
       lon: null
     }
   },
+  computed: {
+    bgClass() {
+      if (this.weatherData) {
+        if (this.weatherData.weather[0].icon.endsWith('n')) {
+          return 'bg-night'
+        }
+        else {
+          return 'bg-day'
+        }
+      }
+    }
+  },
   methods: {
     getLocation() {
       navigator.geolocation.getCurrentPosition(
@@ -102,7 +120,7 @@ export default {
           units: 'metric',
           // callback: 'test',
           // id: '2172797',
-          // lang: 'null',
+          lang: 'zh_tw',
           // units: '"metric" or "imperial"',
           // mode: 'xml, html'
         },
@@ -114,9 +132,39 @@ export default {
 
       this.$axios(options).then(response => {
         try {
-          console.log('response.data=', response.data)
+          console.log('[getWeatherByCoords] response.data=', response.data)
           this.weatherData = response.data
-          
+        } catch (error) {
+          console.error(error);
+        }
+      })
+    },
+    getWeatherBySearch(){
+      const options = {
+        method: 'GET',
+	      crossDomain: true,
+        url: 'https://community-open-weather-map.p.rapidapi.com/weather',
+        params: {
+          q: this.search,
+          // lat: this.lat,
+          // lon: this.lon,
+          units: 'metric',
+          // units: '"metric" or "imperial"',
+          // callback: 'test',
+          // id: '2172797',
+          lang: 'zh_tw',
+          // mode: 'xml, html'
+        },
+        headers: {
+          'x-rapidapi-key': '43307ddc22msh7f191e616a3cb85p1b2385jsn24748b2f6800',
+          'x-rapidapi-host': 'community-open-weather-map.p.rapidapi.com'
+        }
+      };
+
+      this.$axios(options).then(response => {
+        try {
+          console.log('[getWeatherBySearch] response.data=', response.data)
+          this.weatherData = response.data
         } catch (error) {
           console.error(error);
         }
@@ -129,6 +177,10 @@ export default {
 <style lang="sass" scoped>
   .q-page
     background: linear-gradient(to bottom, #136a8a, #267871)
+    &.bg-night
+      background: linear-gradient(to bottom, #232526, #414345)
+    &.bg-day
+      background: linear-gradient(to bottom, #00b4db, #0083b0)
   .degree
     top: -44px
   .skyline
