@@ -98,6 +98,7 @@ export default {
   },
   methods: {
     getLocation() {
+      this.$q.loading.show()
       navigator.geolocation.getCurrentPosition(
         position => {
           // console.log('position: ', position)
@@ -107,6 +108,8 @@ export default {
         })
     },
     getWeatherByCoords(){
+      this.$q.loading.show()
+
       // https://api.openweathermap.org/data/2.5/weather?lat=35&lon=139&appid={API key}
 
       const options = {
@@ -131,6 +134,7 @@ export default {
       };
 
       this.$axios(options).then(response => {
+        this.$q.loading.hide()
         try {
           console.log('[getWeatherByCoords] response.data=', response.data)
           this.weatherData = response.data
@@ -140,6 +144,8 @@ export default {
       })
     },
     getWeatherBySearch(){
+      this.$q.loading.show()
+
       const options = {
         method: 'GET',
 	      crossDomain: true,
@@ -162,6 +168,7 @@ export default {
       };
 
       this.$axios(options).then(response => {
+        this.$q.loading.hide()
         try {
           console.log('[getWeatherBySearch] response.data=', response.data)
           this.weatherData = response.data
